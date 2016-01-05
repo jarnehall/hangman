@@ -80,7 +80,7 @@ function revealLetter (theLetter) {
     theWordID.innerHTML = temp;
 
     if (temp === theWord) {
-        victory();
+        endGame("victory");
     }
 }
 
@@ -97,7 +97,7 @@ function letterPress (thisEl) {
         timesWrong++;
         attemptsLeftID.innerHTML = "Försök kvar: " + (10 - timesWrong);
         if (timesWrong >= 10) {
-            defeat();
+            endGame("defeat");
         }
         console.log(timesWrong);
     }
@@ -106,20 +106,24 @@ function letterPress (thisEl) {
 }
 
 
-// The player won (YAY!)
-function victory () {
-    theWordID.className += " victory";
+// The game is over, the parameter state declares either victory or defeat
+function endGame (state) {
+    var pNode = document.createElement("p");
+
+    theWordID.className += " " + state;
     alphabetID.parentElement.removeChild(alphabetID);
     attemptsLeftID.parentElement.removeChild(attemptsLeftID);
-    console.log("DU VANN! Du gissade fel " + timesWrong + " gånger!");
-}
 
+    pNode.id = "endScreenID";
 
-// The player lost
-function defeat () {
-    theWordID.className += " defeat";
-    alphabetID.parentElement.removeChild(alphabetID);
-    console.log("DU FÖRLORADE! Det rätta ordet var " + theWord + ".");
+    if (state === "victory") {
+        var textnode = document.createTextNode("Grattis, du vann med " + timesWrong + " felaktiga gissningar.");
+    } else {
+        var textnode = document.createTextNode("Tyvärr, du förlorade. Det rätta ordet var " + theWord + ".");
+    }
+
+    pNode.appendChild(textnode);
+    cont.appendChild(pNode);
 }
 
 
@@ -208,7 +212,7 @@ function initiateCounter () {
 }
 
 
-// Returns a random integrer between min (inclusive) and max (exclusive)
+// Get a random whole integrer between the numbers min and max
 function getRandomArbitrary(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
