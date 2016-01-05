@@ -83,6 +83,14 @@ h1#theWordID {
     animation: fadein 3s ease;
 }
 
+.container p.intro-text {
+    font-size: 18px;
+    text-align: left;
+    line-height: 28px;
+    animation: none;
+    margin-bottom: 30px;
+}
+
 @keyframes fadein {
     0% {
         opacity: 0;
@@ -120,6 +128,49 @@ ul {
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
+}
+
+ul.diff {
+}
+
+ul.diff li.selected {
+    background-color: #0E87C4;
+    color: #fefefe;
+    cursor: default;
+}
+
+ul.diff li.selected:hover {
+    background-color: #0E87C4;
+}
+
+ul.diff li {
+    font-size: 18px;
+    background-color: lightgrey;
+    box-sizing: border-box;
+    max-width: 300px;
+    color: #333;
+    display: block;
+    width: auto;
+    padding: 10px 30px;
+    margin: 10px auto;
+}
+
+ul.diff li h2 {
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
+ul.diff li p {
+    padding: 5px 0;
+    margin: 0;
+    text-align: left;
+    animation: none;
+}
+
+ul.diff li:hover {
+    text-decoration: none;
+    background-color: #A1D4ED;
 }
 
 li {
@@ -174,7 +225,7 @@ button {
     line-height: 50px;
     display: block;
     text-align: center;
-    margin: 75px auto 20px;
+    margin: 50px auto 0px;
     border-radius: 5px;
     background-color: #0E87C4;
     color: #fefefe;
