@@ -21,8 +21,6 @@ var cont = document.querySelector(".container"),
     timesWrong = "0",
     rightGuesses = [];
 
-resetBtn.addEventListener("click", initiateGame);
-
 // Run the function that starts a new game
 initiateGame();
 
@@ -97,6 +95,7 @@ function letterPress (thisEl) {
     }
     else {
         timesWrong++;
+        attemptsLeftID.innerHTML = "Försök kvar: " + (10 - timesWrong);
         if (timesWrong >= 10) {
             defeat();
         }
@@ -111,6 +110,7 @@ function letterPress (thisEl) {
 function victory () {
     theWordID.className += " victory";
     alphabetID.parentElement.removeChild(alphabetID);
+    attemptsLeftID.parentElement.removeChild(attemptsLeftID);
     console.log("DU VANN! Du gissade fel " + timesWrong + " gånger!");
 }
 
@@ -131,16 +131,15 @@ function initiateGame () {
 
     // theWord contains the word the player is suposed to guess
     theWord = initiateWord()
+    initiateCounter();
     initiateAlphabet();
 
-    console.log("The word is: " + theWord);
+    console.log("Ordet är: " + theWord);
 }
 
 
 // Appends a new <h1> element containing a randomly picked word from the array words[]
 function initiateWord () {
-    console.log("function initiateWord() called.");
-
     var randomNum = getRandomArbitrary(0, words.length),
         h1Node = document.createElement("h1"),
         curLength = words[randomNum].length,
@@ -170,8 +169,6 @@ function initiateWord () {
 
 // Function to create a UL list and populate it with one LI for every letter of the alphabet
 function initiateAlphabet () {
-    console.log("function initiateAlphabet() called.");
-
     var textnode = "",
         alphabetList = document.createElement("ul"),
         alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","å","ä","ö"];
@@ -193,6 +190,21 @@ function initiateAlphabet () {
 
     alphabetList.id = "alphabetID";
     cont.appendChild(alphabetList);
+}
+
+function initiateCounter () {
+    var h2Node = document.createElement("h2");
+
+    // Give our h1Node the #ID of "theWordID"
+    h2Node.id = "attemptsLeftID";
+
+    // Create a text node of the _ for appending
+    var textnode = document.createTextNode("Försök kvar: 10");
+
+    // Append all the _ to the h1Node
+    h2Node.appendChild(textnode);
+    // Append the h1Node to the document
+    cont.appendChild(h2Node);
 }
 
 

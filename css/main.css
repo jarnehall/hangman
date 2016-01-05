@@ -1,25 +1,28 @@
 body {
-    font-family: sans-serif;
+    font-family: "Lato", sans-serif;
     font-size: 24px;
     margin: 20px;
 }
 
 main {
-    max-width: 500px;
+    max-width: 600px;
     min-width: 360px;
     margin: 0 auto;
 }
 
 h1 {
+    font-family: "Lato", sans-serif;
     font-size: 46px;
-    margin: 30px auto;
+    margin: 50px auto;
+    width: 300px;
+    text-align: center;
     font-family: sans-serif;
 }
 
 h1#theWordID {
     font-size: 38px;
-    display: inline-block;
-    background-color: lightblue;
+    margin: 30px auto;
+    display: block;
     padding: 0 0 0 10px;
     letter-spacing: 10px;
     transition: background-color, 0.4s;
@@ -33,6 +36,13 @@ h1.defeat {
     background-color: pink!important;
 }
 
+h2 {
+    font-size: 24px;
+    text-align: center;
+    font-family: "Lato", sans-serif;
+    margin: 30px auto;
+}
+
 ul {
     list-style: none;
     padding: 0;
@@ -42,23 +52,35 @@ ul {
 
 li {
     display: inline-block;
-    margin: 10px;
+    font-size: 24px;
+    margin: 2px;
+    padding: 10px;
+    width: 30px;
+    text-align: center;
+    background-color: lightblue;
+    cursor: pointer;
+    transition: background-color 0.4s;
+}
+
+li:hover {
+    background-color: dodgerblue;
+    text-decoration: underline;
 }
 
 button {
-    margin: 80px auto 0;
+    margin: 50px auto 0;
     font-size: 16px;
     padding: 15px 20px;
     border-radius: 5px;
     background-color: lightblue;
     border: none;
-    transition: background-color 0.4s,
-                color 0.4s;
+    cursor: pointer;
+    transition: background-color 0.4s;
 }
 
 button:hover {
-    background-color: teal;
-    color: white;
+    background-color: dodgerblue;
+    text-decoration: underline;
 }
 
 .correct {
