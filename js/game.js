@@ -16,9 +16,10 @@ var cont = document.querySelector(".container"),
     resetBtn = document.querySelector(".reset-btn"),
     theWordEl = "",
     // All the words that the game can choose from
-    words = ["utedass","radiostyrd","motor","slalombana","fotboll","fängelse","lampsockel","navelludd","tårtkalas","adamsäpple","bollsport","snöstorm","giraff","datorspel"],
+    words = ["mahrez", "betatestare", "ringmuskel", "promiskuös", "lammkött", "handklovar", "carnitas", "olivolja", "rakhyvel", "helikoptern", "övertid", "sjukgymnast", "kaffesug", "rivjärn", "tuggummi", "diskmaskin", "knäckebröd", "chromecast", "plexserver"],
     theWord = "",
     timesWrong = "0",
+    lastGuess = "",
     rightGuesses = [];
 
 // Run the function that starts a new game
@@ -36,8 +37,6 @@ initiateGame();
 
 // Check if the letter the player guessed is correct or not, and act accordingly
 function guessLetter (theLetter) {
-    console.log("function guessLetter(" + theLetter + ") called.");
-
     if (theWord.indexOf(theLetter) > -1) {
         // The guessed letter was found in the word
         return true;
@@ -50,38 +49,22 @@ function guessLetter (theLetter) {
 
 // The player guessed a letter correctly, time to reveal it in the <h1> element
 function revealLetter (theLetter) {
-    console.log("function revealLetter(" + theLetter + ") called");
     var temp = "",
         theWordArray = theWord.split("");
 
-    console.log("theWordArray = " + theWordArray);
-    console.log("rightGuesses = " + rightGuesses);
-
     for (var i = 0; i < theWordArray.length; i++) {
         var correct = false;
-
         for (var x = 0; x < rightGuesses.length; x++) {
-            console.log(rightGuesses[x]);
-
             if (theWordArray[i].indexOf(rightGuesses[x]) > -1) {
-                console.log("true");
                 temp += theWordArray[i];
                 correct = true;
             }
         }
-
-        if (correct == false) {
-            console.log("false");
-            temp += "_";
-        }
+        if (correct == false) { temp += "_"; }
     }
 
-    console.log(temp);
     theWordID.innerHTML = temp;
-
-    if (temp === theWord) {
-        endGame("victory");
-    }
+    if (temp === theWord) { endGame("victory"); }
 }
 
 
@@ -99,31 +82,48 @@ function letterPress (thisEl) {
         if (timesWrong >= 10) {
             endGame("defeat");
         }
-        console.log(timesWrong);
+        console.log("Faults: " + timesWrong);
     }
 
+    var liNode = document.createElement("li"),
+        textnode = document.createTextNode(thisEl.innerHTML);
+
+    liNode.appendChild(textnode);
+
+    var newCopy = thisEl.parentElement.insertBefore(liNode, thisEl);
     thisEl.parentElement.removeChild(thisEl);
+
+    newCopy.className = "used";
 }
 
 
 // The game is over, the parameter state declares either victory or defeat
 function endGame (state) {
-    var pNode = document.createElement("p");
+    var pNode1 = document.createElement("p"),
+        pNode2 = document.createElement("p"),
+        textnode1 = "",
+        textnode2 = "";
 
     theWordID.className += " " + state;
     alphabetID.parentElement.removeChild(alphabetID);
     attemptsLeftID.parentElement.removeChild(attemptsLeftID);
 
-    pNode.id = "endScreenID";
+    pNode1.id = "endScreenID1";
+    pNode2.id = "endScreenID2";
 
     if (state === "victory") {
-        var textnode = document.createTextNode("Grattis, du vann med " + timesWrong + " felaktiga gissningar.");
+        textnode1 = document.createTextNode("Grattis, du vann!");
+        textnode2 = document.createTextNode("Du hade " + (10 - timesWrong) + " försök till godo.");
     } else {
-        var textnode = document.createTextNode("Tyvärr, du förlorade. Det rätta ordet var " + theWord + ".");
+        textnode1 = document.createTextNode("Du förlorade.");
+        textnode2 = document.createTextNode("Det rätta ordet var " + theWord + ".");
     }
 
-    pNode.appendChild(textnode);
-    cont.appendChild(pNode);
+    pNode1.appendChild(textnode1);
+    pNode2.appendChild(textnode2);
+
+    cont.appendChild(pNode1);
+    cont.appendChild(pNode2);
 }
 
 
