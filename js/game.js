@@ -21,7 +21,7 @@ var cont = document.querySelector(".container"),
     timesWrong = "0",
     score = "0",
     rightGuesses = [],
-    difficulties = ["easy", "normal", "hard"],
+    difficulties = ["Nybörjare", "Standard", "Expert"],
     game = new Object();
 
 game.diff = difficulties[1];
@@ -46,13 +46,22 @@ function gameBoot () {
         ulNode = document.createElement("ul"),
         pNode = document.createElement("p"),
         textNode = document.createTextNode("Spela Ordjakten!"),
-        pTextNode = document.createTextNode("Välkommen till Ordjakten, spelet som går ut på att lista ut vilket ord spelet tänker på! Vinn flera gånger i rad för att bygga på din High Score!");
+        pTextNode = document.createTextNode("Välkommen till Ordjakten, spelet som går ut på att lista ut ord! Klicka på en bokstav för att gissa på att den finns med i ordet. Gissa fram tills du löst ut hela ordet eller använt upp alla dina gissningar.");
 
     for (var i = 0; i < difficulties.length; i++) {
         var liNode = document.createElement("li"),
-            x = difficulties[i];
+            x = difficulties[i],
+            howHardAreTheWords;
 
-        liNode.innerHTML = '<h2>' + x + '</h2><p>Du får ' + initiateDiff(x) + ' försök på dig</p>';
+        if (x == difficulties[0]) {
+            howHardAreTheWords = "enkla";
+        } else if (x == difficulties[2]) {
+            howHardAreTheWords = "långa";
+        } else {
+            howHardAreTheWords = "blandade"
+        }
+
+        liNode.innerHTML = '<h2>' + x + '</h2><p>' + initiateDiff(x) + ' försök med ' + howHardAreTheWords + ' ord</p>';
         liNode.className = x;
 
         if (difficulties[i] === game.diff) {
@@ -200,8 +209,6 @@ function endGame (state) {
         pTextNode = document.createTextNode("Du förlorade...");
     }
 
-    console.log("Du kom upp i poängen: " + score);
-
     revealWord();
 
     pNode.appendChild(pTextNode);
@@ -231,9 +238,9 @@ function initiateGame () {
 }
 
 function initiateDiff (diff) {
-    if (diff == "easy") {
+    if (diff == difficulties[0]) {
         return 12;
-    } else if (diff == "hard") {
+    } else if (diff == difficulties[2]) {
         return 6;
     } else {
         return 8;
@@ -249,10 +256,10 @@ function initiateWord () {
         spaces = "",
         wordsDiff = [];
 
-    if (game.diff == "easy") {
+    if (game.diff == difficulties[0]) {
         game.diffLow = 1;
         game.diffHigh = 6;
-    } else if (game.diff == "hard") {
+    } else if (game.diff == difficulties[2]) {
         game.diffLow = 8;
         game.diffHigh = 20;
     } else {
