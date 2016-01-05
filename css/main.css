@@ -87,7 +87,6 @@ h1#theWordID {
     font-size: 18px;
     text-align: left;
     line-height: 28px;
-    animation: none;
     margin-bottom: 30px;
 }
 
@@ -99,14 +98,6 @@ h1#theWordID {
     100% {
         opacity: 1;
     }
-}
-
-h1.victory {
-    background-color: lightgreen!important;
-}
-
-h1.defeat {
-    background-color: pink!important;
 }
 
 h2 {
@@ -128,9 +119,6 @@ ul {
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-}
-
-ul.diff {
 }
 
 ul.diff li.selected {
@@ -156,6 +144,7 @@ ul.diff li {
 }
 
 ul.diff li h2 {
+    display: block;
     padding: 0;
     margin: 0;
     text-align: left;
@@ -237,12 +226,4 @@ button {
 button:hover {
     background-color: #032a3e;
     text-decoration: underline;
-}
-
-.correct {
-    color: lightgreen;
-}
-
-.wrong {
-    color: red;
 }
