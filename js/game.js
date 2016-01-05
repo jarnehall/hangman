@@ -19,8 +19,11 @@ var cont = document.querySelector(".container"),
     words = ["mahrez", "betatestare", "ringmuskel", "promiskuös", "lammkött", "handklovar", "carnitas", "olivolja", "rakhyvel", "helikoptern", "övertid", "sjukgymnast", "kaffesug", "rivjärn", "tuggummi", "diskmaskin", "knäckebröd", "chromecast", "plexserver"],
     theWord = "",
     timesWrong = "0",
-    lastGuess = "",
-    rightGuesses = [];
+    score = "0",
+    rightGuesses = [],
+    game = new Object();
+
+game.difficulty = "hard";
 
 // Run the function that starts a new game
 initiateGame();
@@ -67,6 +70,24 @@ function revealLetter (theLetter) {
     if (temp === theWord) { endGame("victory"); }
 }
 
+function revealWord () {
+    var temp = "",
+        theWordArray = theWord.split("");
+
+    for (var i = 0; i < theWordArray.length; i++) {
+        var correct = false;
+        for (var x = 0; x < rightGuesses.length; x++) {
+            if (theWordArray[i].indexOf(rightGuesses[x]) > -1) {
+                temp += '<span class="playerCor">' + theWordArray[i] + '</span>';
+                correct = true;
+            }
+        }
+        if (correct == false) { temp += '<span class="playerWro">' + theWordArray[i] + '</span>'; }
+    }
+
+    theWordID.innerHTML = temp;
+}
+
 
 // Things to happen when the player presses a letter
 function letterPress (thisEl) {
@@ -78,8 +99,8 @@ function letterPress (thisEl) {
     }
     else {
         timesWrong++;
-        attemptsLeftID.innerHTML = "Försök kvar: " + (10 - timesWrong);
-        if (timesWrong >= 10) {
+        attemptsLeftID.innerHTML = "Försök kvar: " + (game.attempts - timesWrong);
+        if (timesWrong >= game.attempts) {
             endGame("defeat");
         }
         console.log("Faults: " + timesWrong);
@@ -93,7 +114,11 @@ function letterPress (thisEl) {
     var newCopy = thisEl.parentElement.insertBefore(liNode, thisEl);
     thisEl.parentElement.removeChild(thisEl);
 
-    newCopy.className = "used";
+    if (correct) {
+        newCopy.className = "used correct";
+    } else {
+        newCopy.className = "used wrong";
+    }
 }
 
 
@@ -101,10 +126,11 @@ function letterPress (thisEl) {
 function endGame (state) {
     var pNode1 = document.createElement("p"),
         pNode2 = document.createElement("p"),
+        buttonNode = document.createElement("button"),
         textnode1 = "",
-        textnode2 = "";
+        textnode2 = "",
+        textnode3 = document.createTextNode("Ny omgång");
 
-    theWordID.className += " " + state;
     alphabetID.parentElement.removeChild(alphabetID);
     attemptsLeftID.parentElement.removeChild(attemptsLeftID);
 
@@ -112,18 +138,30 @@ function endGame (state) {
     pNode2.id = "endScreenID2";
 
     if (state === "victory") {
+        score++;
+        highScoreID.innerHTML = "Vinster i rad: " + score;
         textnode1 = document.createTextNode("Grattis, du vann!");
-        textnode2 = document.createTextNode("Du hade " + (10 - timesWrong) + " försök till godo.");
+        textnode2 = document.createTextNode("Du hade " + (game.attempts - timesWrong) + " försök till godo.");
     } else {
-        textnode1 = document.createTextNode("Du förlorade.");
-        textnode2 = document.createTextNode("Det rätta ordet var " + theWord + ".");
+        score = 0;
+        revealLetter ("end");
+        textnode1 = document.createTextNode("Du förlorade...");
+        textnode2 = document.createTextNode("");
     }
+
+    console.log("Du kom upp i poängen: " + score);
+
+    revealWord();
 
     pNode1.appendChild(textnode1);
     pNode2.appendChild(textnode2);
+    buttonNode.appendChild(textnode3);
 
     cont.appendChild(pNode1);
     cont.appendChild(pNode2);
+    cont.appendChild(buttonNode);
+
+    buttonNode.addEventListener("click", initiateGame);
 }
 
 
@@ -134,11 +172,23 @@ function initiateGame () {
     rightGuesses = [];
 
     // theWord contains the word the player is suposed to guess
-    theWord = initiateWord()
+    theWord = initiateWord(game.difficulty);
+    game.attempts = initiateDiff(game.difficulty);
+    initiateHighScore();
     initiateCounter();
     initiateAlphabet();
 
     console.log("Ordet är: " + theWord);
+}
+
+function initiateDiff (diff) {
+    if (diff === "easy") {
+        return 12;
+    } else if (diff === "hard") {
+        return 6;
+    } else {
+        return 8;
+    }
 }
 
 
@@ -203,7 +253,22 @@ function initiateCounter () {
     h2Node.id = "attemptsLeftID";
 
     // Create a text node of the _ for appending
-    var textnode = document.createTextNode("Försök kvar: 10");
+    var textnode = document.createTextNode("Försök kvar: " + game.attempts);
+
+    // Append all the _ to the h1Node
+    h2Node.appendChild(textnode);
+    // Append the h1Node to the document
+    cont.appendChild(h2Node);
+}
+
+function initiateHighScore () {
+    var h2Node = document.createElement("h2");
+
+    // Give our h1Node the #ID of "theWordID"
+    h2Node.id = "highScoreID";
+
+    // Create a text node of the _ for appending
+    var textnode = document.createTextNode("Vinster i rad: " + score);
 
     // Append all the _ to the h1Node
     h2Node.appendChild(textnode);
