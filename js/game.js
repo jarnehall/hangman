@@ -1,9 +1,6 @@
 // Created by Alexander Järnehall
 
 
-
-
-
     /******************************
     *                             *
     *   Stuff done on page load   *
@@ -24,7 +21,10 @@ var cont = document.querySelector(".container"),
     difficulties = ["Nybörjare", "Standard", "Expert"],
     game = new Object();
 
+// Set the default difficulty to "Standard"
 game.diff = difficulties[1];
+
+// Declared in global scope for later use
 game.diffLow = "";
 game.diffHigh = "";
 
@@ -41,6 +41,7 @@ gameBoot();
     ******************************/
 
 
+// A rather long function that sets up the whole intro screen of the game, where the player can select difficulty and start a match
 function gameBoot () {
     var buttonNode = document.createElement("button"),
         ulNode = document.createElement("ul"),
@@ -48,6 +49,7 @@ function gameBoot () {
         textNode = document.createTextNode("Spela Ordjakten!"),
         pTextNode = document.createTextNode("Välkommen till Ordjakten, spelet som går ut på att lista ut ord! Klicka på en bokstav för att gissa på att den finns med i ordet. Gissa fram tills du löst ut hela ordet eller använt upp alla dina gissningar.");
 
+    // This loop creates and appends the different difficulty options
     for (var i = 0; i < difficulties.length; i++) {
         var liNode = document.createElement("li"),
             x = difficulties[i],
@@ -86,6 +88,8 @@ function gameBoot () {
     buttonNode.addEventListener("click", initiateGame);
 }
 
+
+// A function that changes the difficulty of the game
 function changeDiff (el) {
     var ulList = document.querySelector(".diff");
 
@@ -102,6 +106,7 @@ function changeDiff (el) {
         }
     }
 }
+
 
 // Check if the letter the player guessed is correct or not, and act accordingly
 function guessLetter (theLetter) {
@@ -120,6 +125,7 @@ function revealLetter (theLetter) {
     var temp = "",
         theWordArray = theWord.split("");
 
+    // A loop that goes through each letter of the word, and checks if the player has guessed that letter or not
     for (var i = 0; i < theWordArray.length; i++) {
         var correct = false;
         for (var x = 0; x < rightGuesses.length; x++) {
@@ -132,9 +138,12 @@ function revealLetter (theLetter) {
     }
 
     theWordID.innerHTML = temp;
+    // If the temp word this function created is the same as the correct word, trigger win condition
     if (temp === theWord) { endGame("victory"); }
 }
 
+
+// A function that reveals the correct word to the player and gives each letter a class depending on the player guessed it or not
 function revealWord () {
     var temp = "",
         theWordArray = theWord.split("");
@@ -150,35 +159,36 @@ function revealWord () {
         if (correct == false) { temp += '<span class="playerWro">' + theWordArray[i] + '</span>'; }
     }
 
+    // Set the word on the game board to the temp one this function created
     theWordID.innerHTML = temp;
 }
 
 
 // Things to happen when the player presses a letter
 function letterPress (thisEl) {
-    var correct = guessLetter(thisEl.innerHTML);
+    var correct = guessLetter(thisEl.innerHTML),
+        liNode = document.createElement("li"),
+        textnode = document.createTextNode(thisEl.innerHTML);
 
+    // If the letter is in the word, do some stuff. Otherwise, do some other stuff.
     if (correct) {
         rightGuesses.push(thisEl.innerHTML);
         revealLetter(thisEl.innerHTML);
-    }
-    else {
+    } else {
         timesWrong++;
         attemptsLeftID.innerHTML = "Försök kvar: " + (game.attempts - timesWrong);
         if (timesWrong >= game.attempts) {
             endGame("defeat");
         }
-        console.log("Faults: " + timesWrong);
     }
-
-    var liNode = document.createElement("li"),
-        textnode = document.createTextNode(thisEl.innerHTML);
 
     liNode.appendChild(textnode);
 
+    // To get around the problem of removeEventHandler not working with discrete functions, I simply make a copy of the element and remove the original
     var newCopy = thisEl.parentElement.insertBefore(liNode, thisEl);
     thisEl.parentElement.removeChild(thisEl);
 
+    // Sets a class on the <li> containing the letter that was pressed depening on if the letter is in the word or not
     if (correct) {
         newCopy.className = "used correct";
     } else {
@@ -194,11 +204,13 @@ function endGame (state) {
         pTextNode = "",
         buttonTextNode = document.createTextNode("Ny omgång");
 
+    // Remove some things from the game board
     alphabetID.parentElement.removeChild(alphabetID);
     attemptsLeftID.parentElement.removeChild(attemptsLeftID);
 
     pNode.id = "endScreenID";
 
+    // If the player won, do this, otherwise do that
     if (state === "victory") {
         score++;
         highScoreID.innerHTML = "Vinster i rad: " + score;
@@ -209,34 +221,45 @@ function endGame (state) {
         pTextNode = document.createTextNode("Du förlorade...");
     }
 
+    // Reveal the correct word to the player
     revealWord();
 
     pNode.appendChild(pTextNode);
     buttonNode.appendChild(buttonTextNode);
-
     cont.appendChild(pNode);
     cont.appendChild(buttonNode);
 
+    // Make the "new round" button start a new game when clicked
     buttonNode.addEventListener("click", initiateGame);
 }
 
 
 // Run all the functions and reset varibles to initiate a new game
 function initiateGame () {
+    // Clear the div.container of all content to reset the game board
     cont.innerHTML = "";
+
+    // Reset some varibles unique to each game
     timesWrong = "0";
     rightGuesses = [];
 
-    // theWord contains the word the player is suposed to guess
+    // Set the varible theWord to a new random word for the new game
     theWord = initiateWord(game.diff);
+
+    // Use function initiateDiff() to decide how many attempts the player gets (for his or her selected difficulty)
     game.attempts = initiateDiff(game.diff);
+
+    // Call a bunch of functions that creates and appends stuff needed to play
     initiateHighScore();
     initiateCounter();
     initiateAlphabet();
 
+    // Cheat for testing purposes
     console.log("Ordet är: " + theWord);
 }
 
+
+// A function that sets the number of tries the player get for each difficulty
 function initiateDiff (diff) {
     if (diff == difficulties[0]) {
         return 12;
@@ -248,7 +271,7 @@ function initiateDiff (diff) {
 }
 
 
-// Appends a new <h1> element containing a randomly picked word from the array words[]
+// Appends a new <h1> element containing a randomly picked word from the words array (after the words array has been filtered for difficulty)
 function initiateWord () {
     var randomNum = "",
         h1Node = document.createElement("h1"),
@@ -256,9 +279,10 @@ function initiateWord () {
         spaces = "",
         wordsDiff = [];
 
+    // An IF-statement that sets the min and max length of accepted words depending on the selected difficulty
     if (game.diff == difficulties[0]) {
         game.diffLow = 1;
-        game.diffHigh = 6;
+        game.diffHigh = 5;
     } else if (game.diff == difficulties[2]) {
         game.diffLow = 8;
         game.diffHigh = 20;
@@ -267,38 +291,35 @@ function initiateWord () {
         game.diffHigh = 14;
     }
 
+    // Filter words of correct length to a new array (that new array is used to select a random word)
     for (var i = 0; i < words.length; i++) {
         if (words[i].length >= game.diffLow && words[i].length <= game.diffHigh) {
             wordsDiff.push(words[i]);
         }
     }
 
+    // Get a random number for word selection
     randomNum = getRandomArbitrary(0, wordsDiff.length);
-    curLength = wordsDiff[randomNum].length;
 
-    // Give our h1Node the #ID of "theWordID"
+    curLength = wordsDiff[randomNum].length;
     h1Node.id = "theWordID";
 
-    // Add upp as many _ as there is letters in the selected word
+    // Add up as many "_" as there is letters in the selected word
     for (var i = 0; i < curLength; i++) {
         spaces += "_"
     }
 
-    // Create a text node of the _ for appending
     var textnode = document.createTextNode(spaces);
-
-    // Append all the _ to the h1Node
     h1Node.appendChild(textnode);
-    // Append the h1Node to the document
     cont.appendChild(h1Node);
     theWordEl = document.querySelector("h1");
 
-    // Return the selected word
+    // Return the randomly selected word
     return wordsDiff[randomNum];
 }
 
 
-// Function to create a UL list and populate it with one LI for every letter of the alphabet
+// Create and append a <ul> and populate it with one <li> for every letter of the alphabet (also makes every <li> clickable to call a function)
 function initiateAlphabet () {
     var textnode = "",
         alphabetList = document.createElement("ul"),
@@ -309,7 +330,6 @@ function initiateAlphabet () {
             curLetter = alphabet[i];
 
         textnode = document.createTextNode(alphabet[i]);
-
         liNode.appendChild(textnode);
 
         liNode.addEventListener("click", function () {
@@ -323,38 +343,32 @@ function initiateAlphabet () {
     cont.appendChild(alphabetList);
 }
 
+
+// Create and append the fault counter (keeps track of how many times the player has guessed wrong)
 function initiateCounter () {
     var h2Node = document.createElement("h2");
 
-    // Give our h1Node the #ID of "theWordID"
     h2Node.id = "attemptsLeftID";
 
-    // Create a text node of the _ for appending
     var textnode = document.createTextNode("Försök kvar: " + game.attempts);
-
-    // Append all the _ to the h1Node
     h2Node.appendChild(textnode);
-    // Append the h1Node to the document
     cont.appendChild(h2Node);
 }
 
+
+// Create and append the score counter
 function initiateHighScore () {
     var h2Node = document.createElement("h2");
 
-    // Give our h1Node the #ID of "theWordID"
     h2Node.id = "highScoreID";
 
-    // Create a text node of the _ for appending
     var textnode = document.createTextNode("Vinster i rad: " + score);
-
-    // Append all the _ to the h1Node
     h2Node.appendChild(textnode);
-    // Append the h1Node to the document
     cont.appendChild(h2Node);
 }
 
 
-// Get a random whole integrer between the numbers min and max
+// Get a random whole integrer between the min and max numbers specified
 function getRandomArbitrary(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }

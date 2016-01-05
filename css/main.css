@@ -1,3 +1,8 @@
+html,
+body {
+    height: 100%;
+}
+
 body {
     font-family: "Lato", sans-serif;
     font-size: 24px;
@@ -5,48 +10,12 @@ body {
 }
 
 main {
+    min-height: 100%;
 }
 
 header {
     background-color: #0E87C4;
     padding: 3px;
-}
-
-html, body {height: 100%;}
-main {min-height: 100%;}
-
-.container {
-    margin: 0 auto;
-    max-width: 600px;
-    padding: 0 10px;
-    overflow: auto;
-    padding-bottom: 100px; /* must be same height as the footer */
-}
-
-footer {
-    text-align: center;
-    font-size: 16px;
-    color: #fefefe;
-    background-color: #1d1d1d;
-    position: relative;
-    margin-top: -50px; /* negative value of footer height */
-    height: 50px;
-    line-height: 50px;
-    clear:both;
-}
-
-footer p {
-    padding: 0;
-    margin: 0;
-}
-
-footer a {
-    color: #A1D4ED;
-    transition: color, 0.4s;
-}
-
-footer a:hover {
-    color: #57B0DE;
 }
 
 header a {
@@ -78,6 +47,21 @@ h1#theWordID {
     animation: fadein 3s ease;
 }
 
+h2 {
+    font-size: 24px;
+    text-align: center;
+    font-family: "Lato", sans-serif;
+    margin: 30px auto;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 0 10px;
+    overflow: auto;
+    padding-bottom: 100px;
+}
+
 .container p {
     text-align: center;
     animation: fadein 3s ease;
@@ -90,6 +74,9 @@ h1#theWordID {
     margin-bottom: 30px;
 }
 
+
+/* Animations */
+
 @keyframes fadein {
     0% {
         opacity: 0;
@@ -100,25 +87,19 @@ h1#theWordID {
     }
 }
 
-h2 {
-    font-size: 24px;
-    text-align: center;
-    font-family: "Lato", sans-serif;
-    margin: 30px auto;
-}
-
 ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: block;
 
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
+    /* Makes sure that the player can not select letters of the alfabet, cause that was super annoying on mobile */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 ul.diff li.selected {
@@ -207,6 +188,9 @@ span.playerWro {
     color: #F05151;
 }
 
+
+/* Button stuff */
+
 button {
     font-size: 18px;
     width: 200px;
@@ -226,4 +210,33 @@ button {
 button:hover {
     background-color: #032a3e;
     text-decoration: underline;
+}
+
+
+/* Footer stuff */
+
+footer {
+    text-align: center;
+    font-size: 16px;
+    color: #fefefe;
+    background-color: #1d1d1d;
+    position: relative;
+    margin-top: -50px;
+    height: 50px;
+    line-height: 50px;
+    clear:both;
+}
+
+footer p {
+    padding: 0;
+    margin: 0;
+}
+
+footer a {
+    color: #A1D4ED;
+    transition: color, 0.4s;
+}
+
+footer a:hover {
+    color: #57B0DE;
 }
