@@ -1,14 +1,36 @@
 body {
-    background-color: lightblue;
-    width: 400px;
     font-family: sans-serif;
-    font-size: 18px;
+    font-size: 24px;
+    margin: 20px;
+}
+
+main {
+    max-width: 500px;
+    min-width: 360px;
+    margin: 0 auto;
 }
 
 h1 {
-    display: block;
-    margin: 0 auto;
+    font-size: 46px;
+    margin: 30px auto;
     font-family: sans-serif;
+}
+
+h1#theWordID {
+    font-size: 38px;
+    display: inline-block;
+    background-color: lightblue;
+    padding: 0 0 0 10px;
+    letter-spacing: 10px;
+    transition: background-color, 0.4s;
+}
+
+h1.victory {
+    background-color: lightgreen!important;
+}
+
+h1.defeat {
+    background-color: pink!important;
 }
 
 ul {
@@ -16,11 +38,33 @@ ul {
     padding: 0;
     margin: 0;
     display: block;
-    max-width: 100px;
 }
 
 li {
-    display: inline;
+    display: inline-block;
     margin: 10px;
-    cursor: pointer;
+}
+
+button {
+    margin: 80px auto 0;
+    font-size: 16px;
+    padding: 15px 20px;
+    border-radius: 5px;
+    background-color: lightblue;
+    border: none;
+    transition: background-color 0.4s,
+                color 0.4s;
+}
+
+button:hover {
+    background-color: teal;
+    color: white;
+}
+
+.correct {
+    color: lightgreen;
+}
+
+.wrong {
+    color: red;
 }
