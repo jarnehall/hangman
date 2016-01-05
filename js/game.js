@@ -16,17 +16,20 @@ var cont = document.querySelector(".container"),
     resetBtn = document.querySelector(".reset-btn"),
     theWordEl = "",
     // All the words that the game can choose from
-    words = ["mahrez", "betatestare", "ringmuskel", "promiskuös", "lammkött", "handklovar", "carnitas", "olivolja", "rakhyvel", "helikoptern", "övertid", "sjukgymnast", "kaffesug", "rivjärn", "tuggummi", "diskmaskin", "knäckebröd", "chromecast", "plexserver"],
+    words = ["matta", "tåg", "betatestare", "promiskuös", "kött", "pensel", "olivolja", "rakhyvel", "helikopter", "övertid", "sjukgymnast", "kaffesug", "rivjärn", "tuggummi", "diskmaskin", "knäckebröd", "bil", "server"],
     theWord = "",
     timesWrong = "0",
     score = "0",
     rightGuesses = [],
+    difficulties = ["easy", "normal", "hard"],
     game = new Object();
 
-game.difficulty = "hard";
+game.diff = difficulties[1];
+game.diffLow = "";
+game.diffHigh = "";
 
 // Run the function that starts a new game
-initiateGame();
+gameBoot();
 
 
 
@@ -37,6 +40,59 @@ initiateGame();
     *                             *
     ******************************/
 
+
+function gameBoot () {
+    var buttonNode = document.createElement("button"),
+        ulNode = document.createElement("ul"),
+        pNode = document.createElement("p"),
+        textNode = document.createTextNode("Spela Ordjakten!"),
+        pTextNode = document.createTextNode("Välkommen till Ordjakten, spelet som går ut på att lista ut vilket ord spelet tänker på! Vinn flera gånger i rad för att bygga på din High Score!");
+
+    for (var i = 0; i < difficulties.length; i++) {
+        var liNode = document.createElement("li"),
+            x = difficulties[i];
+
+        liNode.innerHTML = '<h2>' + x + '</h2><p>Du får ' + initiateDiff(x) + ' försök på dig</p>';
+        liNode.className = x;
+
+        if (difficulties[i] === game.diff) {
+            liNode.className += " selected";
+        }
+
+        ulNode.appendChild(liNode);
+
+        liNode.addEventListener("click", function(){ changeDiff(this); });
+    }
+
+    buttonNode.appendChild(textNode);
+    pNode.appendChild(pTextNode);
+
+    ulNode.className = "diff";
+    pNode.className = "intro-text";
+
+    cont.appendChild(pNode);
+    cont.appendChild(ulNode);
+    cont.appendChild(buttonNode);
+
+    buttonNode.addEventListener("click", initiateGame);
+}
+
+function changeDiff (el) {
+    var ulList = document.querySelector(".diff");
+
+    for (var i = 0; i < ulList.childNodes.length; i++) {
+        var elChild = ulList.childNodes[i],
+            classes = ulList.childNodes[i].className;
+
+        elChild.className = classes.replace(" selected", "");
+
+        if (elChild === el) {
+            game.diff = elChild.className;
+            console.log("Vald svårighetsgrad: " + game.diff);
+            elChild.className += " selected";
+        }
+    }
+}
 
 // Check if the letter the player guessed is correct or not, and act accordingly
 function guessLetter (theLetter) {
@@ -124,41 +180,34 @@ function letterPress (thisEl) {
 
 // The game is over, the parameter state declares either victory or defeat
 function endGame (state) {
-    var pNode1 = document.createElement("p"),
-        pNode2 = document.createElement("p"),
+    var pNode = document.createElement("p"),
         buttonNode = document.createElement("button"),
-        textnode1 = "",
-        textnode2 = "",
-        textnode3 = document.createTextNode("Ny omgång");
+        pTextNode = "",
+        buttonTextNode = document.createTextNode("Ny omgång");
 
     alphabetID.parentElement.removeChild(alphabetID);
     attemptsLeftID.parentElement.removeChild(attemptsLeftID);
 
-    pNode1.id = "endScreenID1";
-    pNode2.id = "endScreenID2";
+    pNode.id = "endScreenID";
 
     if (state === "victory") {
         score++;
         highScoreID.innerHTML = "Vinster i rad: " + score;
-        textnode1 = document.createTextNode("Grattis, du vann!");
-        textnode2 = document.createTextNode("Du hade " + (game.attempts - timesWrong) + " försök till godo.");
+        pTextNode = document.createTextNode("Grattis, du vann!");
     } else {
         score = 0;
         revealLetter ("end");
-        textnode1 = document.createTextNode("Du förlorade...");
-        textnode2 = document.createTextNode("");
+        pTextNode = document.createTextNode("Du förlorade...");
     }
 
     console.log("Du kom upp i poängen: " + score);
 
     revealWord();
 
-    pNode1.appendChild(textnode1);
-    pNode2.appendChild(textnode2);
-    buttonNode.appendChild(textnode3);
+    pNode.appendChild(pTextNode);
+    buttonNode.appendChild(buttonTextNode);
 
-    cont.appendChild(pNode1);
-    cont.appendChild(pNode2);
+    cont.appendChild(pNode);
     cont.appendChild(buttonNode);
 
     buttonNode.addEventListener("click", initiateGame);
@@ -172,8 +221,8 @@ function initiateGame () {
     rightGuesses = [];
 
     // theWord contains the word the player is suposed to guess
-    theWord = initiateWord(game.difficulty);
-    game.attempts = initiateDiff(game.difficulty);
+    theWord = initiateWord(game.diff);
+    game.attempts = initiateDiff(game.diff);
     initiateHighScore();
     initiateCounter();
     initiateAlphabet();
@@ -182,9 +231,9 @@ function initiateGame () {
 }
 
 function initiateDiff (diff) {
-    if (diff === "easy") {
+    if (diff == "easy") {
         return 12;
-    } else if (diff === "hard") {
+    } else if (diff == "hard") {
         return 6;
     } else {
         return 8;
@@ -194,10 +243,31 @@ function initiateDiff (diff) {
 
 // Appends a new <h1> element containing a randomly picked word from the array words[]
 function initiateWord () {
-    var randomNum = getRandomArbitrary(0, words.length),
+    var randomNum = "",
         h1Node = document.createElement("h1"),
-        curLength = words[randomNum].length,
-        spaces = "";
+        curLength = "",
+        spaces = "",
+        wordsDiff = [];
+
+    if (game.diff == "easy") {
+        game.diffLow = 1;
+        game.diffHigh = 6;
+    } else if (game.diff == "hard") {
+        game.diffLow = 8;
+        game.diffHigh = 20;
+    } else {
+        game.diffLow = 5;
+        game.diffHigh = 14;
+    }
+
+    for (var i = 0; i < words.length; i++) {
+        if (words[i].length >= game.diffLow && words[i].length <= game.diffHigh) {
+            wordsDiff.push(words[i]);
+        }
+    }
+
+    randomNum = getRandomArbitrary(0, wordsDiff.length);
+    curLength = wordsDiff[randomNum].length;
 
     // Give our h1Node the #ID of "theWordID"
     h1Node.id = "theWordID";
@@ -217,7 +287,7 @@ function initiateWord () {
     theWordEl = document.querySelector("h1");
 
     // Return the selected word
-    return words[randomNum];
+    return wordsDiff[randomNum];
 }
 
 
