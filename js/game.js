@@ -16,7 +16,7 @@ var cont = document.querySelector(".container"),
     words = ["matta", "tåg", "betatestare", "promiskuös", "kött", "pensel",
         "olivolja", "rakhyvel", "helikopter", "övertid", "sjukgymnast", "kaffesug",
         "rivjärn", "tuggummi", "diskmaskin", "knäckebröd", "bil", "server",
-        "testa", "lagstifta", "rösta", "adamsäpple", "sjörövare", "telefon",
+        "sten", "lagstifta", "rösta", "adamsäpple", "sjörövare", "telefon",
         "tenta", "gevär", "grönsak", "maskin", "gränskontroll", "misär",
         "kompis", "syster", "bror", "mamma", "pappa", "katt", "kanin", "hund",
         "gräsmatta", "apelsin", "simma", "vatten", "resa", "mat", "komplicerad",
@@ -32,7 +32,10 @@ var cont = document.querySelector(".container"),
         "leksak", "diamant", "tavla", "biograf", "båt", "buss", "modersmjölk",
         "tvilling", "kursin", "högkostnadsskydd", "allemansrätt", "initiativ",
         "balsamvinäger", "kompispris", "komplett", "brännskada", "ord", "åtagande",
-        "aska", "åska", "storm", "tå", "råka", "skratta", "fel", "pyjamas"],
+        "aska", "åska", "storm", "tå", "råka", "skratta", "fel", "pyjamas",
+        "bråkstake", "troll", "penna", "webbutveckling", "reklam", "reta",
+        "självporträtt", "fisk", "kryptering", "handskakning", "nattklubb",
+        "umgänge", "bekantskapskrets", "grill"],
     theWord = "",
     timesWrong = "0",
     score = "0",
@@ -66,7 +69,7 @@ function gameBoot () {
         ulNode = document.createElement("ul"),
         pNode = document.createElement("p"),
         textNode = document.createTextNode("Spela Ordjakten!"),
-        pTextNode = document.createTextNode("Välkommen till Ordjakten, spelet som går ut på att lista ut ord! Klicka på en bokstav för att gissa på att den finns med i ordet. Gissa tills du löst ut hela ordet (och vinner) eller använt upp alla dina gissningar (och fölorar).");
+        pTextNode = document.createTextNode("Välkommen till Ordjakten! Klicka på en bokstav för att gissa på att den finns med i det hemliga ordet.");
 
     // This loop creates and appends the different difficulty options
     for (var i = 0; i < difficulties.length; i++) {
@@ -77,12 +80,12 @@ function gameBoot () {
         if (x == difficulties[0]) {
             howHardAreTheWords = "enkla";
         } else if (x == difficulties[2]) {
-            howHardAreTheWords = "långa";
+            howHardAreTheWords = "svåra";
         } else {
             howHardAreTheWords = "blandade"
         }
 
-        liNode.innerHTML = '<h2>' + x + '</h2><p>' + initiateDiff(x) + ' försök med ' + howHardAreTheWords + ' ord</p>';
+        liNode.innerHTML = '<h2>' + x + '</h2><p>' + initiateDiff(x) + ' försök på ' + howHardAreTheWords + ' ord</p>';
         liNode.className = x;
 
         if (difficulties[i] === game.diff) {
@@ -306,7 +309,7 @@ function initiateWord () {
         game.diffLow = 8;
         game.diffHigh = 20;
     } else {
-        game.diffLow = 5;
+        game.diffLow = 6;
         game.diffHigh = 14;
     }
 
@@ -383,7 +386,7 @@ function initiateHighScore () {
 
     h2Node.id = "highScoreID";
 
-    var textnode = document.createTextNode("Vinster i rad: " + score);
+    var textnode = document.createTextNode("");
     h2Node.appendChild(textnode);
     cont.appendChild(h2Node);
 }
