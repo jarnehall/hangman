@@ -13,7 +13,26 @@ var cont = document.querySelector(".container"),
     resetBtn = document.querySelector(".reset-btn"),
     theWordEl = "",
     // All the words that the game can choose from
-    words = ["matta", "tåg", "betatestare", "promiskuös", "kött", "pensel", "olivolja", "rakhyvel", "helikopter", "övertid", "sjukgymnast", "kaffesug", "rivjärn", "tuggummi", "diskmaskin", "knäckebröd", "bil", "server"],
+    words = ["matta", "tåg", "betatestare", "promiskuös", "kött", "pensel",
+        "olivolja", "rakhyvel", "helikopter", "övertid", "sjukgymnast", "kaffesug",
+        "rivjärn", "tuggummi", "diskmaskin", "knäckebröd", "bil", "server",
+        "testa", "lagstifta", "rösta", "adamsäpple", "sjörövare", "telefon",
+        "tenta", "gevär", "grönsak", "maskin", "gränskontroll", "misär",
+        "kompis", "syster", "bror", "mamma", "pappa", "katt", "kanin", "hund",
+        "gräsmatta", "apelsin", "simma", "vatten", "resa", "mat", "komplicerad",
+        "såg", "fil", "bågfil", "kris", "fred", "lösenord", "avtal", "skelett",
+        "prutta", "djävul", "ängel", "han", "hon", "den", "det", "kuliss",
+        "sågspån", "schampo", "marinad", "vinter", "snö", "sommar", "höst", "löv",
+        "sko", "skarpsint", "väg", "byggnad", "fotboll", "brännboll", "tennis",
+        "balkong", "konsert", "final", "datorspel", "kortspel", "pengar", "mynt",
+        "avancerad", "omtalad", "tidning", "kapsyl", "glasflaska", "tårtkalas",
+        "pirat", "sköldpadda", "skalbagge", "hälsa", "tändsticka", "julgransbelysning",
+        "vadslagning", "programmera", "webbläsare", "webben", "felmeddelande",
+        "pris", "kristallkrona", "lampa", "epedemi", "karantän", "månsken",
+        "leksak", "diamant", "tavla", "biograf", "båt", "buss", "modersmjölk",
+        "tvilling", "kursin", "högkostnadsskydd", "allemansrätt", "initiativ",
+        "balsamvinäger", "kompispris", "komplett", "brännskada", "ord", "åtagande",
+        "aska", "åska", "storm", "tå", "råka", "skratta", "fel", "pyjamas"],
     theWord = "",
     timesWrong = "0",
     score = "0",
@@ -47,7 +66,7 @@ function gameBoot () {
         ulNode = document.createElement("ul"),
         pNode = document.createElement("p"),
         textNode = document.createTextNode("Spela Ordjakten!"),
-        pTextNode = document.createTextNode("Välkommen till Ordjakten, spelet som går ut på att lista ut ord! Klicka på en bokstav för att gissa på att den finns med i ordet. Gissa fram tills du löst ut hela ordet eller använt upp alla dina gissningar.");
+        pTextNode = document.createTextNode("Välkommen till Ordjakten, spelet som går ut på att lista ut ord! Klicka på en bokstav för att gissa på att den finns med i ordet. Gissa tills du löst ut hela ordet (och vinner) eller använt upp alla dina gissningar (och fölorar).");
 
     // This loop creates and appends the different difficulty options
     for (var i = 0; i < difficulties.length; i++) {
@@ -297,6 +316,8 @@ function initiateWord () {
             wordsDiff.push(words[i]);
         }
     }
+
+    console.log("Den valde svårighetsgraden har: " + wordsDiff.length + " ord att välja på");
 
     // Get a random number for word selection
     randomNum = getRandomArbitrary(0, wordsDiff.length);
