@@ -137,7 +137,6 @@ function changeDiff (el) {
 
         if (elChild === el) {
             game.diff = elChild.className;
-            console.log("Vald svårighetsgrad: " + game.diff);
             elChild.className += " selected";
         }
     }
@@ -279,6 +278,8 @@ function initiateGame () {
     // Reset some varibles unique to each game
     timesWrong = "0";
     rightGuesses = [];
+    
+    console.log("Vald svårighetsgrad: " + game.diff);
 
     // Set the varible theWord to a new random word for the new game
     theWord = initiateWord(game.diff);
@@ -301,10 +302,16 @@ function initiateGame () {
 // A function that sets the number of tries the player get for each difficulty
 function initiateDiff (diff) {
     if (diff == difficulties[0]) {
+        game.diffLow = 1;
+        game.diffHigh = 5;
         return 12;
     } else if (diff == difficulties[2]) {
+        game.diffLow = 9;
+        game.diffHigh = 16;
         return 6;
     } else {
+        game.diffLow = 6;
+        game.diffHigh = 14;
         return 8;
     }
 }
@@ -364,7 +371,9 @@ function initiateWord () {
 function initiateAlphabet () {
     var textnode = "",
         alphabetList = document.createElement("ul"),
-        alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","å","ä","ö"];
+        alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l",
+                    "m","n","o","p","q","r","s","t","u","v","w","x",
+                    "y","z","å","ä","ö"];
 
     for (var i = 0; i < alphabet.length; i++) {
         var liNode = document.createElement("li"),

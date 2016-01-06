@@ -47,6 +47,14 @@ h1#theWordID {
     animation: fadein 2s ease;
 }
 
+span.playerCor {
+    color: #51B057;
+}
+
+span.playerWro {
+    color: #F05151;
+}
+
 h2 {
     font-size: 24px;
     text-align: center;
@@ -91,6 +99,9 @@ h2#attemptsLeftID {
         opacity: 1;
     }
 }
+
+
+/* List stuff */
 
 ul {
     list-style: none;
@@ -185,14 +196,6 @@ li.wrong {
 li.correct {
     color: #51B057;
     background-color: #E0EDDF;
-}
-
-span.playerCor {
-    color: #51B057;
-}
-
-span.playerWro {
-    color: #F05151;
 }
 
 
