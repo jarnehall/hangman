@@ -35,7 +35,11 @@ var cont = document.querySelector(".container"),
         "aska", "åska", "storm", "tå", "råka", "skratta", "fel", "pyjamas",
         "bråkstake", "troll", "penna", "webbutveckling", "reklam", "reta",
         "självporträtt", "fisk", "kryptering", "handskakning", "nattklubb",
-        "umgänge", "bekantskapskrets", "grill"],
+        "umgänge", "bekantskapskrets", "grill", "midsommar", "adjö", "julskinka",
+        "örngott", "budskap", "tokrunka", "himmelrike", "skärseld", "kandelaber",
+        "mungipa", "sovsäck", "kronärtskocka", "lunginflammation", "herbarium",
+        "jänkare", "tatuering", "läsglasögon", "periferi", "omkrets", "kandidat",
+        "maskinist", "jordbruk", "operation", "galax", "romantisk"],
     theWord = "",
     timesWrong = "0",
     score = "0",
@@ -44,7 +48,17 @@ var cont = document.querySelector(".container"),
     game = new Object();
 
 // Set the default difficulty to "Standard"
-game.diff = difficulties[1];
+if (typeof(Storage) !== "undefined") {
+    console.log('Loading data from localStorage');
+    if (localStorage.gameDiff) {
+        game.diff = localStorage.gameDiff;
+    } else {
+        game.diff = difficulties[1];
+    }
+} else {
+    console.log('Sorry, your browser does not support localStorage');
+    game.diff = difficulties[1];
+}
 
 // Declared in global scope for later use
 game.diffLow = "";
@@ -52,7 +66,6 @@ game.diffHigh = "";
 
 // Run the function that starts a new game
 gameBoot();
-
 
 
 
@@ -275,6 +288,8 @@ function initiateGame () {
     initiateHighScore();
     initiateCounter();
     initiateAlphabet();
+
+    localStorage.gameDiff = game.diff;
 
     // Cheat for testing purposes
     console.log("Ordet är: " + theWord);

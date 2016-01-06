@@ -24,8 +24,7 @@ header a {
 }
 
 header a:hover {
-    color: #ddd;
-    text-decoration: underline;
+    color: #d1eaf7;
 }
 
 h1 {
@@ -34,6 +33,7 @@ h1 {
     margin: 10px auto;
     text-align: center;
     width: auto;
+    font-weight: 400;
     font-family: sans-serif;
 }
 
@@ -44,7 +44,7 @@ h1#theWordID {
     padding: 0 0 0 10px;
     letter-spacing: 10px;
     transition: background-color, 0.4s;
-    animation: fadein 3s ease;
+    animation: fadein 2s ease;
 }
 
 h2 {
@@ -54,12 +54,16 @@ h2 {
     margin: 30px auto;
 }
 
+h2#attemptsLeftID {
+    animation: fadein 2s ease;
+}
+
 .container {
     margin: 0 auto;
     max-width: 600px;
     padding: 0 10px;
     overflow: auto;
-    padding-bottom: 100px;
+    padding-bottom: 80px;
 }
 
 .container p {
@@ -72,7 +76,7 @@ h2 {
     text-align: left;
     line-height: 26px;
     font-weight: 300;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 
@@ -93,6 +97,7 @@ ul {
     padding: 0;
     margin: 0;
     display: block;
+    animation: fadein 2s ease;
 
     /* Makes sure that the player can not select letters of the alfabet, cause that was super annoying on mobile */
     -webkit-touch-callout: none;
@@ -115,7 +120,7 @@ ul.diff li.selected:hover {
 
 ul.diff li {
     font-size: 18px;
-    background-color: lightgrey;
+    background-color: #ededed;
     box-sizing: border-box;
     max-width: 300px;
     color: #333;
@@ -141,7 +146,8 @@ ul.diff li p {
 
 ul.diff li:hover {
     text-decoration: none;
-    background-color: #A1D4ED;
+    background-color: #032a3e;
+    color: #fefefe;
 }
 
 li {
@@ -206,6 +212,7 @@ button {
     border: none;
     cursor: pointer;
     transition: background-color 0.4s;
+    animation: fadein 2s ease;
 }
 
 button:hover {
@@ -226,6 +233,7 @@ footer {
     height: 50px;
     line-height: 50px;
     clear:both;
+    font-weight: 300;
 }
 
 footer p {
