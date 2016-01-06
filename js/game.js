@@ -39,7 +39,7 @@ var cont = document.querySelector(".container"),
         "örngott", "budskap", "tokrunka", "himmelrike", "skärseld", "kandelaber",
         "mungipa", "sovsäck", "kronärtskocka", "lunginflammation", "herbarium",
         "jänkare", "tatuering", "läsglasögon", "periferi", "omkrets", "kandidat",
-        "maskinist", "jordbruk", "operation", "galax", "romantisk"],
+        "maskinist", "jordbruk", "operation", "galax", "romantisk", "prinsessa"],
     theWord = "",
     timesWrong = "0",
     score = "0",
@@ -47,16 +47,17 @@ var cont = document.querySelector(".container"),
     difficulties = ["Nybörjare", "Standard", "Expert"],
     game = new Object();
 
-// Set the default difficulty to "Standard"
+// Set the difficulty to whatever it was last time the game was played, if that does not work, set it to "Standard"
 if (typeof(Storage) !== "undefined") {
-    console.log('Loading data from localStorage');
     if (localStorage.gameDiff) {
         game.diff = localStorage.gameDiff;
     } else {
         game.diff = difficulties[1];
     }
-} else {
-    console.log('Sorry, your browser does not support localStorage');
+}
+// If the browser does not have support for localStorage, do this instead (set difficulty to "standard")
+else {
+    console.log('ERROR: Tyvärr har inte din webbläsare stöd för localStorage');
     game.diff = difficulties[1];
 }
 
@@ -251,8 +252,9 @@ function endGame (state) {
         highScoreID.innerHTML = "Vinster i rad: " + score;
         pTextNode = document.createTextNode("Grattis, du vann!");
     } else {
-        score = 0;
         revealLetter ("end");
+        highScoreID.innerHTML = "Vinster i rad: " + score;
+        score = "0";
         pTextNode = document.createTextNode("Du förlorade...");
     }
 
@@ -321,8 +323,8 @@ function initiateWord () {
         game.diffLow = 1;
         game.diffHigh = 5;
     } else if (game.diff == difficulties[2]) {
-        game.diffLow = 8;
-        game.diffHigh = 20;
+        game.diffLow = 9;
+        game.diffHigh = 16;
     } else {
         game.diffLow = 6;
         game.diffHigh = 14;
@@ -335,7 +337,7 @@ function initiateWord () {
         }
     }
 
-    console.log("Den valde svårighetsgraden har: " + wordsDiff.length + " ord att välja på");
+    console.log("Svårighetsgraden " + game.diff + " har " + wordsDiff.length + " ord att välja på");
 
     // Get a random number for word selection
     randomNum = getRandomArbitrary(0, wordsDiff.length);
