@@ -30,13 +30,13 @@ var cont = document.querySelector(".container"),
         "vadslagning", "programmera", "webbläsare", "webben", "felmeddelande",
         "pris", "kristallkrona", "lampa", "epedemi", "karantän", "månsken",
         "leksak", "diamant", "tavla", "biograf", "båt", "buss", "modersmjölk",
-        "tvilling", "kursin", "högkostnadsskydd", "allemansrätt", "initiativ",
+        "tvilling", "kursiv", "högkostnadsskydd", "allemansrätt", "initiativ",
         "balsamvinäger", "kompispris", "komplett", "brännskada", "ord", "åtagande",
         "aska", "åska", "storm", "tå", "råka", "skratta", "fel", "pyjamas",
         "bråkstake", "troll", "penna", "webbutveckling", "reklam", "reta",
         "självporträtt", "fisk", "kryptering", "handskakning", "nattklubb",
         "umgänge", "bekantskapskrets", "grill", "midsommar", "adjö", "julskinka",
-        "örngott", "budskap", "tokrunka", "himmelrike", "skärseld", "kandelaber",
+        "örngott", "budskap", "himmelrike", "skärseld", "kandelaber",
         "mungipa", "sovsäck", "kronärtskocka", "lunginflammation", "herbarium",
         "jänkare", "tatuering", "läsglasögon", "periferi", "omkrets", "kandidat",
         "maskinist", "jordbruk", "operation", "galax", "romantisk", "prinsessa"],
@@ -278,7 +278,7 @@ function initiateGame () {
     // Reset some varibles unique to each game
     timesWrong = "0";
     rightGuesses = [];
-    
+
     console.log("Vald svårighetsgrad: " + game.diff);
 
     // Set the varible theWord to a new random word for the new game
